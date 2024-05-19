@@ -1,4 +1,12 @@
-# monitoramento_e_observabilidade
+# MÓDULO 5 - Monitoramento e Observabilidade
+ - Introdução à Monitoramento e Observabilidade.
+ - Logs, Métricas e Rastreamento
+ - SLA, SLI e SLO
+ - Uso de uma ferramenta para centralização de logs
+ - Coleta de métricas e definição de alertas
+ - Criar dashboards com gráficos de métricas e logs
+
+## Diagrama da prática
 
 ![Diagrama](assets/diagrama.png "Diagrama do Lab")
 
