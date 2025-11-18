@@ -1,0 +1,23 @@
+---
+# Ingress para o Init Container Demo
+# Adicione "127.0.0.1 nginx-init.local" no arquivo /etc/hosts
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-init-ingress
+  namespace: init-container
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-init.local  # Hostname para acessar a aplicação
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: init-container-service
+            port:
+              number: 8080

@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-hostname
+  namespace: flask-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-hostname
+  template:
+    metadata:
+      labels:
+        app: flask-hostname
+    spec:
+      containers:
+        - name: flask
+          image: python:3.12-slim
+          command: ["sh", "-c", "pip install flask && python -u /app/server.py"]
+          volumeMounts:
+            - name: app
+              mountPath: /app  # Monta o ConfigMap no diretório /app
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:  # Recursos mínimos reservados
+              cpu: "10m"
+              memory: "129Mi"
+            limits:  # Recursos máximos permitidos
+              cpu: "100m"
+              memory: "256Mi"
+      volumes:
+        - name: app
+          configMap:
+            name: flask-app  # Referência ao ConfigMap com o código da aplicação

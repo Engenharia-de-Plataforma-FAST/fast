@@ -1,0 +1,46 @@
+---
+# Init Containers são executados antes dos containers principais
+# Neste exemplo, o init container baixa uma página HTML antes do Nginx iniciar
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-container-demo
+  namespace: init-container
+  labels:
+    app: init-container-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: init-container-demo
+  template:
+    metadata:
+      labels:
+        app: init-container-demo
+    spec:
+      initContainers:
+      - name: init-download
+        image: busybox
+        # Baixa uma página HTML antes do container principal iniciar
+        command: [ "wget", "-O", "/data/index.html", "https://www.example.com/" ]
+        volumeMounts:
+        - name: shared-data
+          mountPath: /data  # Volume compartilhado com o container principal
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: shared-data
+          mountPath: /usr/share/nginx/html  # Nginx serve o arquivo baixado pelo init container
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "56Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
+      volumes:
+      - name: shared-data
+        emptyDir: {}  # Volume temporário que existe enquanto o Pod existir

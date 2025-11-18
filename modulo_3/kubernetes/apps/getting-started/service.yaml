@@ -1,0 +1,15 @@
+---
+# Service para expor a aplicação Getting Started
+apiVersion: v1
+kind: Service
+metadata:
+  name: getting-started
+  namespace: getting-started
+spec:
+  type: NodePort
+  selector:
+    app: hello-getting-started
+  ports:
+    - protocol: TCP
+      port: 80  # Porta do serviço
+      targetPort: 3000  # Porta do container

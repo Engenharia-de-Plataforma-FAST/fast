@@ -1,0 +1,22 @@
+---
+# Ingress para roteamento HTTP externo
+# Adicione "127.0.0.1 getting-started.local" no arquivo /etc/hosts
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: getting-started
+  namespace: getting-started
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: getting-started.local  # Hostname para acessar a aplicação
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: getting-started
+                port:
+                  number: 80

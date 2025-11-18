@@ -1,0 +1,26 @@
+---
+# ConfigMap contendo o código da aplicação Flask
+# ConfigMaps são usados para armazenar dados de configuração não-sensíveis
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-app
+  namespace: flask-app
+data:
+  # Arquivo Python com a aplicação Flask
+  server.py: |
+    from flask import Flask
+    import socket
+    app = Flask(__name__)
+    @app.route("/")
+    def home():
+        hostname = socket.gethostname()
+        return f"""
+        <body style="background:#121212; color:white; font-family:sans-serif; text-align:center; padding-top:20%;">
+            <h1>Hello, World! 🌙</h1>
+            <p>Flask 3.0.1-v4</p>
+            <p style="color:#888;">Hostname: {hostname}</p>
+        </body>
+        """
+    if __name__ == "__main__":
+        app.run(host="0.0.0.0", port=5000)

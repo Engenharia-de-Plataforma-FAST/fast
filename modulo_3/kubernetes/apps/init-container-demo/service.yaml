@@ -1,0 +1,15 @@
+---
+# Service para expor o Nginx do Init Container Demo
+apiVersion: v1
+kind: Service
+metadata:
+  name: init-container-service
+  namespace: init-container
+spec:
+  type: NodePort
+  selector:
+    app: init-container-demo
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 80

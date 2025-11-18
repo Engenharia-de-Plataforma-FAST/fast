@@ -1,0 +1,23 @@
+---
+# Ingress para roteamento HTTP externo para a aplicação Flask
+# Requer o ingress-nginx instalado: minikube addons enable ingress
+# Adicione "127.0.0.1 flask.local" no arquivo /etc/hosts (Linux/Mac) ou C:\Windows\System32\drivers\etc\hosts (Windows)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flask-ingress
+  namespace: flask-app
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /  # Reescreve o path para /
+spec:
+  rules:
+    - host: flask.local  # Hostname para acessar a aplicação
+      http:
+        paths:
+          - path: /  # Path base
+            pathType: Prefix  # Tipo de correspondência do path
+            backend:
+              service:
+                name: flask-hostname  # Nome do service
+                port:
+                  number: 80  # Porta do service

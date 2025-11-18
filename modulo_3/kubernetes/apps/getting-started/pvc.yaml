@@ -1,0 +1,15 @@
+---
+# PersistentVolumeClaim para armazenamento persistente
+# Solicita 1GB de armazenamento que será usado pelo deployment
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: getting-started-pvc
+  namespace: getting-started
+spec:
+  accessModes:
+    - ReadWriteOnce  # Pode ser montado por um único node em modo leitura/escrita
+  resources:
+    requests:
+      storage: 1Gi  # Tamanho do volume solicitado
+  storageClassName: standard  # Classe de armazenamento padrão do Minikube

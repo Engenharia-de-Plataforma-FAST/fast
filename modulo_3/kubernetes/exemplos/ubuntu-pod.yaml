@@ -1,0 +1,21 @@
+# Pod simples com Ubuntu para testes e debug
+# Pode ser executado com o comando: kubectl exec -it ubuntu-pod -n fast-2025 -- bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-pod
+  namespace: fast-2025
+  labels:
+    app: ubuntu
+spec:
+  containers:
+  - name: ubuntu
+    image: ubuntu:latest
+    command: [ "sleep", "3600" ]  # Mantém o container rodando por 1 hora
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
+      limits:
+        cpu: "500m"
+        memory: "256Mi"

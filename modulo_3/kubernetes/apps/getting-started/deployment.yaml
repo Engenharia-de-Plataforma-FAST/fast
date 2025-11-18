@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: getting-started-deployment
+  namespace: getting-started
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-getting-started
+  template:
+    metadata:
+      labels:
+        app: hello-getting-started
+    spec:
+      containers:
+        - name: hello-getting-started-container
+          image: andreffcastro/getting-started:v1.0
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          volumeMounts:
+            - name: getting-started-storage
+              mountPath: /etc/todos  # Diretório onde os dados serão persistidos
+      volumes:
+        - name: getting-started-storage
+          persistentVolumeClaim:
+            claimName: getting-started-pvc  # Referência ao PVC
